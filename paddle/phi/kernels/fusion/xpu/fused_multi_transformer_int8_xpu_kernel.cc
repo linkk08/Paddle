@@ -19,7 +19,7 @@
 #include "paddle/phi/core/meta_tensor.h"
 #include "paddle/phi/infermeta/binary.h"
 #include "paddle/phi/kernels/memcpy_kernel.h"
-#ifdef PADDLE_WITH_XPU_XFT
+#if 0  // def PADDLE_WITH_XPU_XFT
 #include "models/fused_multi_transformer_gpt.h"
 namespace xft = baidu::xpu::xft;
 #endif
@@ -71,7 +71,7 @@ void FusedMultiTransformerInt8XpuKernel(
     int gather_axis,
     DenseTensor* out,
     std::vector<DenseTensor*> cache_kv_out) {
-#ifdef PADDLE_WITH_XPU_XFT
+#if 0  // def PADDLE_WITH_XPU_XFT
   using XPUTypeT = typename XPUTypeTrait<T>::Type;
 
   PADDLE_ENFORCE_EQ(pre_layer_norm,

@@ -65,6 +65,13 @@ void MultiHeadAttentionVariableForwardKernel(
       scale                                  /* alpha */
   );
   qkv_attn_param.key_value_head_num = kv_num_heads;
+  if (mask) {
+    // if mask > 0, data = data; else data = -10000
+    qkv_attn_param.is_mask_change = true;  // if true: 0->-10000, 1->0
+    qkv_attn_param.is_mask_replace =
+        true;  // if mask is -10000 or 0, if true: data + (-10000) = -10000,
+               // else data + 0 = data
+  }
 
   const XPUType* mask_ptr =
       mask ? reinterpret_cast<const XPUType*>(mask.get().data<T>()) : nullptr;

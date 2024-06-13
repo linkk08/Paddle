@@ -513,7 +513,7 @@
   optional : bias, branch
 
 - op : variable_length_memory_efficient_attention
-  args : (Tensor query, Tensor key, Tensor value, Tensor seq_lens, Tensor kv_seq_lens, Tensor mask, float scale, bool causal, int pre_cache_length)
+  args : (Tensor query, Tensor key, Tensor value, Tensor seq_lens, Tensor kv_seq_lens, Tensor mask, float scale, bool causal, int pre_cache_length=0)
   output : Tensor
   infer_meta :
     func : VariableLengthMemoryEfficientAttentionInferMeta
@@ -522,16 +522,6 @@
     data_type : query
   optional : mask
   support_dygraph_mode : true
-
-- op : weight_only_linear_xpu
-  args : (Tensor x, Tensor weight, Tensor bias, Tensor weight_scale, str weight_dtype, int arch = 80, int group_size = -1)
-  output : Tensor(out)
-  infer_meta :
-    func : WeightOnlyLinearInferMeta
-  kernel :
-    func : weight_only_linear_xpu
-    data_type : x
-  optional : bias
 
 - op : yolo_box_xpu
   args : (Tensor x, Tensor x_max, Tensor grid, Tensor stride, Tensor anchor_grid, float offset)

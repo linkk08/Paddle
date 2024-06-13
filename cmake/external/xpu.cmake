@@ -160,21 +160,25 @@ if(WITH_XPU_BKCL)
   include_directories(${XPU_BKCL_INC_DIR})
 endif()
 
+set(XPU_XDNN_LOCAL_PATH "/ssd3/chenzhonghua02/sd-1.5/baidu/xpu/api/output")
+set(XPU_XDNN_INC_LOCAL_PATH "${XPU_XDNN_LOCAL_PATH}/include/xpu/")
+set(XPU_XDNN_LIB_LOCAL_PATH "${XPU_XDNN_LOCAL_PATH}/so/libxpuapi.so")
+
 ExternalProject_Add(
   ${XPU_PROJECT}
   ${EXTERNAL_PROJECT_LOG_ARGS}
   PREFIX ${SNAPPY_PREFIX_DIR}
   DOWNLOAD_DIR ${XPU_DOWNLOAD_DIR}
   DOWNLOAD_COMMAND
-    bash ${CMAKE_SOURCE_DIR}/tools/xpu/check_xpu_dependence.sh ${XPU_BASE_URL}
-    ${XPU_XCCL_BASE_URL} && WITH_XPU_XHPC=${WITH_XPU_XHPC} bash
+    WITH_XPU_XHPC=${WITH_XPU_XHPC} bash
     ${CMAKE_SOURCE_DIR}/tools/xpu/pack_paddle_depence.sh ${XPU_XRE_URL}
     ${XPU_XRE_DIR_NAME} ${XPU_XDNN_URL} ${XPU_XDNN_DIR_NAME} ${XPU_XCCL_URL}
     ${XPU_XCCL_DIR_NAME} ${XPU_XHPC_URL} ${XPU_XHPC_DIR_NAME} && wget
     ${XPU_XFT_GET_DEPENCE_URL} && bash get_xft_dependence.sh ${XPU_XFT_URL}
     ${XPU_XFT_DIR_NAME} && WITH_XPTI=${WITH_XPTI} bash
     ${CMAKE_SOURCE_DIR}/tools/xpu/get_xpti_dependence.sh ${XPU_XPTI_URL}
-    ${XPU_XPTI_DIR_NAME}
+    ${XPU_XPTI_DIR_NAME} && cp -r ${XPU_XDNN_INC_LOCAL_PATH} xpu/include/ && cp
+    -r ${XPU_XDNN_LIB_LOCAL_PATH} xpu/lib/
   DOWNLOAD_NO_PROGRESS 1
   UPDATE_COMMAND ""
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${XPU_INSTALL_ROOT}

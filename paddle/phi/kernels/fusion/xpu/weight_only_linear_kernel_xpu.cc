@@ -127,7 +127,7 @@ void WeightOnlyLinearKernel(const Context& dev_ctx,
   }
 }
 }  // namespace phi
-PD_REGISTER_KERNEL(weight_only_linear_xpu,
+PD_REGISTER_KERNEL(weight_only_linear,
                    XPU,
                    ALL_LAYOUT,
                    phi::WeightOnlyLinearKernel,
