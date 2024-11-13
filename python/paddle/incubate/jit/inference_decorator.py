@@ -371,7 +371,7 @@ class InferenceEngine:
     # why we need input_tensor_lists? this is for TensorRT max/min/opt shape.
     def create_predictor(self, input_tensor_lists):
         # create predictor
-        model_file = os.path.join(self.save_model_dir, "infer.pdmodel")
+        model_file = os.path.join(self.save_model_dir, "infer.json") #if pir
         params_file = os.path.join(self.save_model_dir, "infer.pdiparams")
 
         config = Config(model_file, params_file)
@@ -392,6 +392,17 @@ class InferenceEngine:
                 gpu_id,
                 get_inference_precision(self.precision_mode),
             )
+        elif 'xpu' in device_num:
+            config.enable_xpu() 
+            config.enable_memory_optim(False) # shut it down if pir
+            device_id = int(os.environ.get("FLAGS_selected_xpus", 0))
+            config.set_xpu_device_id(device_id)
+            xpu_config = paddle.inference.XpuConfig()
+            xpu_config.device_id = device_id
+            xpu_config.l3_size = 0
+            xpu_config.conv_autotune_level = 0
+            xpu_config.fc_autotune_level = 0
+            config.set_xpu_config(xpu_config)
 
         if self.with_trt:
             dynamic_names = []
