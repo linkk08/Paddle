@@ -704,6 +704,20 @@ void FastLayernormXPUInferMeta(const MetaTensor& x,
                                float epsilon,
                                MetaTensor* out);
 
+void AdaptiveLayernormXPUInferMeta(const MetaTensor& x,
+                                   const MetaTensor& scale,
+                                   const MetaTensor& bias,
+                                   const MetaTensor& in1,
+                                   const MetaTensor& in2,
+                                   int begin_norm_axis,
+                                   float epsilon,
+                                   float factor,
+                                   float scale_bias,
+                                   bool bias_after_scale,
+                                   int64_t unsqueeze_axis1,
+                                   int64_t unsqueeze_axis2,
+                                   MetaTensor* out);
+
 void BNActXPUInferMeta(const MetaTensor& x,
                        const MetaTensor& mean,
                        const MetaTensor& variance,
