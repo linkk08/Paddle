@@ -123,9 +123,9 @@ void SetXPUDeviceId(int id) {
       GetXPUDeviceCount(),
       common::errors::InvalidArgument("id must less than XPU count"));
   PADDLE_ENFORCE_XPU_SUCCESS(xpu_set_device(id));
-#ifdef PADDLE_WITH_XPU
-  PADDLE_ENFORCE_XPU_SUCCESS(cudaSetDevice(id));
-#endif
+  // #ifdef PADDLE_WITH_XPU
+  //   PADDLE_ENFORCE_XPU_SUCCESS(cudaSetDevice(id));
+  // #endif
 }
 
 static inline std::vector<std::string> Split(std::string const& original,

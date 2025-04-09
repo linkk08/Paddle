@@ -45,15 +45,15 @@ void SwiGluKernel(const Context& ctx,
                           y_dims,
                           dims));
   }
-  int ret = xpu::swiglu(ctx.x_context(),
-                        reinterpret_cast<const XPUType*>(x_data),
-                        reinterpret_cast<XPUType*>(z_data),
-                        dims_vec,
-                        axis,
-                        true,
-                        const_nullptr,
-                        nullptr,
-                        y_ptr);
+  int ret = xpu::fast_swiglu(ctx.x_context(),
+                             reinterpret_cast<const XPUType*>(x_data),
+                             reinterpret_cast<XPUType*>(z_data),
+                             dims_vec,
+                             axis,
+                             true,
+                             const_nullptr,
+                             nullptr);
+  // std::cout << "=====> lkk fast swiglu" << std::endl;
   PADDLE_ENFORCE_XDNN_SUCCESS(ret, "swiglu");
 }
 }  // namespace phi
